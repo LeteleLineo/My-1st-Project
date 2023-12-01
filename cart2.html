@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="fashion.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+     #cart-items ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  #cart-items li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  #cart-items img {
+    max-width: 50px;
+    margin-right: 10px;
+  }
+
+  #cart-total {
+    font-weight: bold;
+  }
+  </style>
+</head>
+<body>
+  <div class="topnav">
+    <h2>Top-Trending Picks for This Super Hot Summer</h2>
+  </div>
+
+  <header class="header">
+    <ul>
+      <li><h1 class="logo">Vogue Valley</h1></li>
+      <li><input type="search" placeholder="SEARCH..."></li>
+    </ul>
+
+    <nav>
+      <ul>
+        <li><a href="topnav.html">Home</a></li>
+        <li><a href="About.html">About</a></li>
+        <li><a href="#fc">Products</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div id="cart-container">
+        <a href="Cart2.html"><img src="C:\Users\26662\Documents\GitHub\E-commerce\cart.png" width="30px" height="30px" >
+        <span id="cart-count"></span>
+      
+        </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h2>Your Cart</h2>
+    <div id="cart-items"></div>
+    <p>Total: <span id="cart-total"></span></p>
+    <a id="checkout-button" href="cheout.html">Checkout</a>
+    </div>
+    
+
+  <script>
+    function displayCart() {
+        var cart = JSON.parse(localStorage.getItem('cart')) || { items: [], total: 0 };
+      var cartItemsElement = document.getElementById('cart-items');
+      var cartTotalElement = document.getElementById('cart-total');
+  
+      if (cart.items.length === 0) {
+        cartItemsElement.innerHTML = '<p>Your cart is empty</p>';
+      } else {
+        var cartHTML = '<ul>';
+        cart.items.forEach(function(item) {
+          cartHTML += '<li><item.image + "" alt="' + item.name + '">' +
+            '<div><strong>' + item.name + '</strong><br>R' + item.price.toFixed(2) +
+            ' - Quantity: ' + item.quantity +
+            ' <button data-action="remove-from-cart" data-name="' + item.name + '">Remove</button></div></li>';
+        });
+        cartHTML += '</ul>';
+        cartItemsElement.innerHTML = cartHTML;
+      }
+  
+      cartTotalElement.innerText = 'R' + cart.total.toFixed(2);
+
+      var removeButtons = document.querySelectorAll('[data-action="remove-from-cart"]');
+      removeButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+          removeFromCart(button);
+          displayCart();
+        });
+      });
+    }
+    
+
+    function removeFromCart(button) {
+        var itemName = button.dataset.name;
+      var cart = JSON.parse(localStorage.getItem('cart')) || { items: [], total: 0 };
+      var itemIndex = cart.items.findIndex(item => item.name === itemName);
+  
+      if (itemIndex !== -1) {
+        var removedItem = cart.items.splice(itemIndex, 1)[0];
+        cart.total -= removedItem.price * removedItem.quantity;
+        localStorage.setItem('cart', JSON.stringify(cart));
+      }
+    }
+
+
+    displayCart();
+  </script>
+
+  <div class="footer">
+    <h3>Find Us On</h3>
+    <ul>
+      <li><a href="#" class="fa fa-facebook"></a></li>
+      <li><a href="#" class="fa fa-twitter"></a></li>
+      <li><a href="#" class="fa fa-instagram"></a></li>
+      <li><a href="#" class="fa fa-pinterest"></a></li>
+    </ul>
+  </div>
+</body>
+</html>
